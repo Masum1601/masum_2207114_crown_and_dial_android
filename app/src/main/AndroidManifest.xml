@@ -11,15 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Watchstore_android_114">
+        
+        <!-- Login Activity - Entry Point -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- Register Activity -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:parentActivityName=".LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
+        
+        <!-- Main Activity (placeholder) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+            
     </application>
 
 </manifest>

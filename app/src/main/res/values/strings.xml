@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">watchstore_android_114</string>
+    <string name="app_name">Crown &amp; Dial</string>
+    <string name="app_title">Crown &amp; Dial</string>
+    
+    <!-- Login Screen -->
+    <string name="login_title">Login</string>
+    <string name="login_subtitle">Premium Watch Collection</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="register_here">Register here</string>
+    <string name="demo_credentials">Demo: admin/admin123 or create new account</string>
+    
+    <!-- Register Screen -->
+    <string name="create_account">Create Account</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="login_here">Login here</string>
 </resources>
