@@ -9,16 +9,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.watchstore_android_114.models.User;
+import com.example.watchstore_android_114.utils.JSONDatabaseManager;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etUsername, etEmail, etPassword, etConfirmPassword;
     private Button btnRegister;
     private TextView tvBackToLogin;
+    private JSONDatabaseManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        dbManager = JSONDatabaseManager.getInstance(this);
 
         etUsername = findViewById(R.id.et_username);
         etEmail = findViewById(R.id.et_email);
@@ -90,6 +96,19 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Registration functionality will be implemented with database", Toast.LENGTH_SHORT).show();
+        if (dbManager.getUserByUsername(username) != null) {
+            Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show();
+            etUsername.requestFocus();
+            return;
+        }
+
+        User newUser = new User(0, username, password, email, false);
+        
+        if (dbManager.addUser(newUser)) {
+            Toast.makeText(this, "Account created successfully! Please login", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(this, "Registration failed. Please try again", Toast.LENGTH_SHORT).show();
+        }
     }
 }
