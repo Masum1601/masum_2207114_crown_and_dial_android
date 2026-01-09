@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.watchstore_android_114.utils.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView tvBackToLogin;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        sessionManager = SessionManager.getInstance(this);
 
         etUsername = findViewById(R.id.et_username);
         etEmail = findViewById(R.id.et_email);
@@ -44,6 +47,12 @@ public class RegisterActivity extends AppCompatActivity {
         etConfirmPassword = findViewById(R.id.et_confirm_password);
         btnRegister = findViewById(R.id.btn_register);
         tvBackToLogin = findViewById(R.id.tv_back_to_login);
+
+        if (etUsername == null || etEmail == null || etPassword == null || 
+            etConfirmPassword == null || btnRegister == null || tvBackToLogin == null) {
+            Toast.makeText(this, "Error: Views not found", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,12 +130,14 @@ public class RegisterActivity extends AppCompatActivity {
                                 Map<String, Object> userProfile = new HashMap<>();
                                 userProfile.put("username", username);
                                 userProfile.put("email", email);
+                                userProfile.put("isAdmin", false);
 
                                 db.collection("users").document(user.getUid())
                                         .set(userProfile)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
+                                                sessionManager.saveUserData(username, false);
                                                 Toast.makeText(RegisterActivity.this,
                                                         "Account created successfully!",
                                                         Toast.LENGTH_SHORT).show();
@@ -145,11 +156,28 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
                             }
                         } else {
-                            String errorMsg = task.getException() != null ?
-                                    task.getException().getMessage() : "Registration failed";
-                            Toast.makeText(RegisterActivity.this, "Registration failed: " + errorMsg, Toast.LENGTH_LONG).show();
                             btnRegister.setEnabled(true);
                             btnRegister.setText("Register");
+                            
+                            String errorMsg = "Registration failed";
+                            if (task.getException() != null) {
+                                errorMsg = task.getException().getMessage();
+                                if (errorMsg == null) errorMsg = "Unknown error";
+                                
+                                if (errorMsg.contains("network")) {
+                                    errorMsg = "Network error. Check your internet connection.";
+                                } else if (errorMsg.contains("email address is already")) {
+                                    errorMsg = "This email is already registered. Please login instead.";
+                                } else if (errorMsg.contains("badly formatted")) {
+                                    errorMsg = "Invalid email format.";
+                                } else if (errorMsg.contains("weak password")) {
+                                    errorMsg = "Password is too weak.";
+                                }
+                            }
+                            
+                            Toast.makeText(RegisterActivity.this, 
+                                "Registration failed: " + errorMsg, 
+                                Toast.LENGTH_LONG).show();
                         }
                     }
                 });

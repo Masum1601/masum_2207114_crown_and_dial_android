@@ -19,4 +19,7 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="login_here">Login here</string>
+    
+    <!-- User Dashboard -->
+    <string name="sort_by">Sort by</string>
 </resources>

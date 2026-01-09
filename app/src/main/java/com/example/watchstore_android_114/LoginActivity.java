@@ -11,10 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.watchstore_android_114.utils.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        sessionManager = SessionManager.getInstance(this);
 
         if (mAuth.getCurrentUser() != null) {
             navigateToMain();
@@ -39,6 +47,11 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_password);
         btnLogin = findViewById(R.id.btn_login);
         tvRegister = findViewById(R.id.tv_register);
+
+        if (etEmail == null || etPassword == null || btnLogin == null || tvRegister == null) {
+            Toast.makeText(this, "Error: Views not found", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         btnLogin.setOnClickListener(v -> loginUser());
         tvRegister.setOnClickListener(v -> navigateToRegister());
@@ -68,9 +81,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this,
-                                "Login successful!", Toast.LENGTH_SHORT).show();
-                            navigateToMain();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                fetchUserDataAndNavigate(user.getUid());
+                            }
                         } else {
                             btnLogin.setEnabled(true);
                             btnLogin.setText("Login");
@@ -82,8 +96,32 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void fetchUserDataAndNavigate(String userId) {
+        db.collection("users").document(userId)
+            .get()
+            .addOnSuccessListener(documentSnapshot -> {
+                String username = "User";
+                boolean isAdmin = false;
+                
+                if (documentSnapshot.exists()) {
+                    username = documentSnapshot.getString("username");
+                    Boolean adminValue = documentSnapshot.getBoolean("isAdmin");
+                    isAdmin = adminValue != null && adminValue;
+                }
+                
+                sessionManager.saveUserData(username != null ? username : "User", isAdmin);
+                Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                navigateToMain();
+            })
+            .addOnFailureListener(e -> {
+                sessionManager.saveUserData("User", false);
+                Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                navigateToMain();
+            });
+    }
+
     private void navigateToMain() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, UserDashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

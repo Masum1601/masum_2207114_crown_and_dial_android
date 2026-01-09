@@ -30,6 +30,12 @@
             android:parentActivityName=".LoginActivity"
             android:windowSoftInputMode="adjustResize" />
         
+        <!-- User Dashboard Activity -->
+        <activity
+            android:name=".UserDashboardActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        
         <!-- Main Activity (placeholder) -->
         <activity
             android:name=".MainActivity"
