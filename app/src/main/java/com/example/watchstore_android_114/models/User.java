@@ -1,9 +1,8 @@
 package com.example.watchstore_android_114.models;
 
 public class User {
-    private int id;
+    private String userId;
     private String username;
-    private String password;
     private String email;
     private boolean isAdmin;
     private long createdAt;
@@ -12,21 +11,20 @@ public class User {
         this.createdAt = System.currentTimeMillis();
     }
 
-    public User(int id, String username, String password, String email, boolean isAdmin) {
-        this.id = id;
+    public User(String userId, String username, String email, boolean isAdmin) {
+        this.userId = userId;
         this.username = username;
-        this.password = password;
         this.email = email;
         this.isAdmin = isAdmin;
         this.createdAt = System.currentTimeMillis();
     }
 
-    public int getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -35,14 +33,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {

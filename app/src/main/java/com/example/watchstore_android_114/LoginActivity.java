@@ -2,97 +2,95 @@ package com.example.watchstore_android_114;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.watchstore_android_114.models.User;
-import com.example.watchstore_android_114.utils.JSONDatabaseManager;
-import com.example.watchstore_android_114.utils.SessionManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etUsername, etPassword;
+    private EditText etEmail, etPassword;
     private Button btnLogin;
     private TextView tvRegister;
-    private JSONDatabaseManager dbManager;
-    private SessionManager sessionManager;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        dbManager = JSONDatabaseManager.getInstance(this);
-        sessionManager = SessionManager.getInstance(this);
+        mAuth = FirebaseAuth.getInstance();
 
-        if (sessionManager.isLoggedIn()) {
-            navigateToDashboard();
+        if (mAuth.getCurrentUser() != null) {
+            navigateToMain();
             return;
         }
 
-        etUsername = findViewById(R.id.et_username);
+        etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         btnLogin = findViewById(R.id.btn_login);
         tvRegister = findViewById(R.id.tv_register);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleLogin();
-            }
-        });
-
-        tvRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+        btnLogin.setOnClickListener(v -> loginUser());
+        tvRegister.setOnClickListener(v -> navigateToRegister());
     }
 
-    private void handleLogin() {
-        String username = etUsername.getText().toString().trim();
+    private void loginUser() {
+        String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if (username.isEmpty()) {
-            etUsername.setError("Username is required");
-            etUsername.requestFocus();
+        if (TextUtils.isEmpty(email)) {
+            etEmail.setError("Email is required");
+            etEmail.requestFocus();
             return;
         }
 
-        if (password.isEmpty()) {
+        if (TextUtils.isEmpty(password)) {
             etPassword.setError("Password is required");
             etPassword.requestFocus();
             return;
         }
 
-        User user = dbManager.getUserByUsername(username);
+        btnLogin.setEnabled(false);
+        btnLogin.setText("Logging in...");
 
-        if (user == null) {
-            Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!user.getPassword().equals(password)) {
-            Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        sessionManager.createSession(user.getId(), user.getUsername(), 
-                                    user.getEmail(), user.isAdmin());
-
-        Toast.makeText(this, "Welcome " + user.getUsername() + "!", Toast.LENGTH_SHORT).show();
-        navigateToDashboard();
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this,
+                                "Login successful!", Toast.LENGTH_SHORT).show();
+                            navigateToMain();
+                        } else {
+                            btnLogin.setEnabled(true);
+                            btnLogin.setText("Login");
+                            Toast.makeText(LoginActivity.this,
+                                    "Login failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
-    private void navigateToDashboard() {
-        Toast.makeText(this, "Dashboard will be created next", Toast.LENGTH_SHORT).show();
+    private void navigateToMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
+    }
+
+    private void navigateToRegister() {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,7 +1,10 @@
 package com.example.watchstore_android_114.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Watch {
-    private int id;
+    private String id;
     private String name;
     private String brand;
     private double price;
@@ -15,7 +18,7 @@ public class Watch {
         this.createdAt = System.currentTimeMillis();
     }
 
-    public Watch(int id, String name, String brand, double price, String description, 
+    public Watch(String id, String name, String brand, double price, String description, 
                  int stock, String category, String imageUrl) {
         this.id = id;
         this.name = name;
@@ -27,12 +30,54 @@ public class Watch {
         this.imageUrl = imageUrl;
         this.createdAt = System.currentTimeMillis();
     }
+    
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("brand", brand);
+        map.put("price", price);
+        map.put("description", description);
+        map.put("stock", stock);
+        map.put("category", category);
+        map.put("imageUrl", imageUrl);
+        map.put("createdAt", createdAt);
+        return map;
+    }
+    
+    public static Watch fromMap(String id, Map<String, Object> map) {
+        Watch watch = new Watch();
+        watch.setId(id);
+        watch.setName((String) map.get("name"));
+        watch.setBrand((String) map.get("brand"));
+        
+        Object priceObj = map.get("price");
+        if (priceObj instanceof Number) {
+            watch.setPrice(((Number) priceObj).doubleValue());
+        }
+        
+        watch.setDescription((String) map.get("description"));
+        
+        Object stockObj = map.get("stock");
+        if (stockObj instanceof Number) {
+            watch.setStock(((Number) stockObj).intValue());
+        }
+        
+        watch.setCategory((String) map.get("category"));
+        watch.setImageUrl((String) map.get("imageUrl"));
+        
+        Object createdAtObj = map.get("createdAt");
+        if (createdAtObj instanceof Number) {
+            watch.setCreatedAt(((Number) createdAtObj).longValue());
+        }
+        
+        return watch;
+    }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

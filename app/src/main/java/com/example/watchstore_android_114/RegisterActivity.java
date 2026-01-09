@@ -7,24 +7,36 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.watchstore_android_114.models.User;
-import com.example.watchstore_android_114.utils.JSONDatabaseManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etUsername, etEmail, etPassword, etConfirmPassword;
     private Button btnRegister;
     private TextView tvBackToLogin;
-    private JSONDatabaseManager dbManager;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        dbManager = JSONDatabaseManager.getInstance(this);
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         etUsername = findViewById(R.id.et_username);
         etEmail = findViewById(R.id.et_email);
@@ -49,8 +61,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void handleRegister() {
-        String username = etUsername.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
+        final String username = etUsername.getText().toString().trim();
+        final String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
@@ -96,19 +108,50 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (dbManager.getUserByUsername(username) != null) {
-            Toast.makeText(this, "Username already exists", Toast.LENGTH_SHORT).show();
-            etUsername.requestFocus();
-            return;
-        }
+        btnRegister.setEnabled(false);
+        btnRegister.setText("Creating account...");
 
-        User newUser = new User(0, username, password, email, false);
-        
-        if (dbManager.addUser(newUser)) {
-            Toast.makeText(this, "Account created successfully! Please login", Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            Toast.makeText(this, "Registration failed. Please try again", Toast.LENGTH_SHORT).show();
-        }
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                Map<String, Object> userProfile = new HashMap<>();
+                                userProfile.put("username", username);
+                                userProfile.put("email", email);
+
+                                db.collection("users").document(user.getUid())
+                                        .set(userProfile)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(RegisterActivity.this,
+                                                        "Account created successfully!",
+                                                        Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(RegisterActivity.this,
+                                                        "Failed to create user profile: " + e.getMessage(),
+                                                        Toast.LENGTH_LONG).show();
+                                                btnRegister.setEnabled(true);
+                                                btnRegister.setText("Register");
+                                            }
+                                        });
+                            }
+                        } else {
+                            String errorMsg = task.getException() != null ?
+                                    task.getException().getMessage() : "Registration failed";
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + errorMsg, Toast.LENGTH_LONG).show();
+                            btnRegister.setEnabled(true);
+                            btnRegister.setText("Register");
+                        }
+                    }
+                });
     }
 }
