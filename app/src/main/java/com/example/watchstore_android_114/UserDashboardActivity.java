@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,6 +54,10 @@ public class UserDashboardActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         sessionManager = SessionManager.getInstance(this);
+        
+        // Test Firestore connection
+        Log.d("UserDashboard", "Testing Firestore connection...");
+        Toast.makeText(this, "Testing database connection...", Toast.LENGTH_SHORT).show();
 
         if (!sessionManager.isLoggedIn()) {
             navigateToLogin();
@@ -182,36 +187,67 @@ public class UserDashboardActivity extends AppCompatActivity {
     }
 
     private void loadWatches() {
+        Toast.makeText(this, "⏳ Loading watches...", Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.VISIBLE);
         tvNoWatches.setVisibility(View.GONE);
+        
+        Log.d("UserDashboard", "Setting up realtime listener for watches");
 
-        Query query = db.collection("watches");
-
-        if (!currentCategory.equals("ALL")) {
-            query = query.whereEqualTo("category", currentCategory);
-        }
-
-        query.whereGreaterThan("stock", 0)
-            .get()
-            .addOnSuccessListener(queryDocumentSnapshots -> {
-                watchList.clear();
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                    Watch watch = document.toObject(Watch.class);
-                    watch.setId(document.getId());
-                    watchList.add(watch);
+        // Use addSnapshotListener for realtime updates
+        db.collection("watches")
+            .addSnapshotListener((queryDocumentSnapshots, error) -> {
+                if (error != null) {
+                    progressBar.setVisibility(View.GONE);
+                    Log.e("UserDashboard", "Listen failed: " + error.getMessage());
+                    Toast.makeText(this, "❌ Error: " + error.getMessage(),
+                        Toast.LENGTH_LONG).show();
+                    return;
                 }
                 
-                filterWatches(etSearch.getText().toString());
-                progressBar.setVisibility(View.GONE);
-                
-                if (watchList.isEmpty()) {
-                    tvNoWatches.setVisibility(View.VISIBLE);
+                if (queryDocumentSnapshots != null) {
+                    int totalDocs = queryDocumentSnapshots.size();
+                    Log.d("UserDashboard", "🔄 Realtime update: " + totalDocs + " total documents in Firestore");
+                    
+                    watchList.clear();
+                    filteredWatchList.clear();
+                    
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        try {
+                            Watch watch = document.toObject(Watch.class);
+                            watch.setId(document.getId());
+                            
+                            Log.d("UserDashboard", "📦 Watch: " + watch.getName() + 
+                                  " | Stock: " + watch.getStock() + 
+                                  " | Category: " + watch.getCategory() + 
+                                  " | Price: " + watch.getPrice());
+                            
+                            // Add ALL watches for now (remove filters to test)
+                            watchList.add(watch);
+                            filteredWatchList.add(watch);
+                            
+                        } catch (Exception e) {
+                            Log.e("UserDashboard", "❌ Error parsing watch: " + e.getMessage(), e);
+                        }
+                    }
+                    
+                    Log.d("UserDashboard", "✅ Total watches loaded: " + filteredWatchList.size());
+                    
+                    // Update adapter
+                    watchAdapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                    
+                    // Show result
+                    String message = filteredWatchList.size() + " watches loaded";
+                    Toast.makeText(this, "✅ " + message, Toast.LENGTH_LONG).show();
+                    
+                    if (filteredWatchList.isEmpty()) {
+                        tvNoWatches.setVisibility(View.VISIBLE);
+                        Log.d("UserDashboard", "⚠️ No watches to display");
+                    } else {
+                        tvNoWatches.setVisibility(View.GONE);
+                        Log.d("UserDashboard", "✅ Displaying watches in RecyclerView");
+                    }
                 }
-            })
-            .addOnFailureListener(e -> {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(this, "Failed to load watches: " + e.getMessage(),
-                    Toast.LENGTH_SHORT).show();
             });
     }
 
@@ -359,7 +395,7 @@ public class UserDashboardActivity extends AppCompatActivity {
             .get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 cartItemCount = queryDocumentSnapshots.size();
-                btnCart.setText("🛒 Cart (" + cartItemCount + ")");
+                btnCart.setText("🛒 CART (" + cartItemCount + ")");
             });
     }
 
@@ -378,6 +414,7 @@ public class UserDashboardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Removed loadWatches() - realtime listener handles updates automatically
         updateCartCount();
     }
 }

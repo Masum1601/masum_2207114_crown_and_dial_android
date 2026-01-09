@@ -34,18 +34,6 @@ public class WatchManagementExampleActivity extends AppCompatActivity {
         watchManager = WatchFirebaseManager.getInstance();
         watchList = new ArrayList<>();
         
-        
-        // progressBar = findViewById(R.id.progressBar);
-        // etSearchBrand = findViewById(R.id.etSearchBrand);
-        // btnLoadAll = findViewById(R.id.btnLoadAll);
-        // btnSearch = findViewById(R.id.btnSearch);
-        // btnAddSample = findViewById(R.id.btnAddSample);
-        
-        // Setup RecyclerView
-        // recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // adapter = new WatchAdapter(watchList, this::onWatchClick);
-        // recyclerView.setAdapter(adapter);
-        
         setupButtonListeners();
     }
     
@@ -61,7 +49,6 @@ public class WatchManagementExampleActivity extends AppCompatActivity {
                 showLoading(false);
                 watchList.clear();
                 watchList.addAll(watches);
-                // adapter.notifyDataSetChanged();
                 
                 Toast.makeText(WatchManagementExampleActivity.this, 
                     "Loaded " + watches.size() + " watches", 
@@ -250,7 +237,6 @@ public class WatchManagementExampleActivity extends AppCompatActivity {
                 showLoading(false);
                 watchList.clear();
                 watchList.addAll(watches);
-                // adapter.notifyDataSetChanged();
                 
                 Toast.makeText(WatchManagementExampleActivity.this, 
                     watches.size() + " watches in stock", 

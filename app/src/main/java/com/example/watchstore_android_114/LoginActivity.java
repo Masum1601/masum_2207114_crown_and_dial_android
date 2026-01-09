@@ -3,10 +3,14 @@ package com.example.watchstore_android_114;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         sessionManager = SessionManager.getInstance(this);
+
+        createDefaultAdminIfNeeded();
 
         if (mAuth.getCurrentUser() != null) {
             navigateToMain();
@@ -97,27 +103,98 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void fetchUserDataAndNavigate(String userId) {
+        Log.d("LoginActivity", "Fetching user data for ID: " + userId);
+        
         db.collection("users").document(userId)
             .get()
             .addOnSuccessListener(documentSnapshot -> {
                 String username = "User";
                 boolean isAdmin = false;
                 
+                Log.d("LoginActivity", "Document exists: " + documentSnapshot.exists());
+                
                 if (documentSnapshot.exists()) {
                     username = documentSnapshot.getString("username");
                     Boolean adminValue = documentSnapshot.getBoolean("isAdmin");
                     isAdmin = adminValue != null && adminValue;
+                    
+                    Log.d("LoginActivity", "Username: " + username + ", isAdmin: " + isAdmin);
+                    
+                    // Get the current user's email
+                    String email = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "";
+                    
+                    // If this is admin@watchstore.com but isAdmin is false, fix it
+                    if ("admin@watchstore.com".equals(email) && !isAdmin) {
+                        Log.d("LoginActivity", "Fixing admin account - setting isAdmin to true");
+                        Toast.makeText(this, "Fixing admin account...", Toast.LENGTH_SHORT).show();
+                        
+                        Map<String, Object> updateData = new HashMap<>();
+                        updateData.put("isAdmin", true);
+                        updateData.put("username", "Admin");
+                        updateData.put("email", email);
+                        
+                        db.collection("users").document(userId)
+                            .set(updateData)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Admin account fixed! Please login again.", Toast.LENGTH_LONG).show();
+                                mAuth.signOut();
+                                recreate(); // Restart the activity
+                            });
+                        return;
+                    }
+                    
+                    Toast.makeText(this, "User: " + username + ", Admin: " + isAdmin, Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e("LoginActivity", "User document does not exist in Firestore!");
+                    
+                    // Check if this is admin@watchstore.com - if so, create the document
+                    String email = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "";
+                    if ("admin@watchstore.com".equals(email)) {
+                        Log.d("LoginActivity", "Creating admin user document");
+                        Toast.makeText(this, "Creating admin account...", Toast.LENGTH_SHORT).show();
+                        
+                        Map<String, Object> adminData = new HashMap<>();
+                        adminData.put("username", "Admin");
+                        adminData.put("email", email);
+                        adminData.put("isAdmin", true);
+                        
+                        db.collection("users").document(userId)
+                            .set(adminData)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Admin account created! Please login again.", Toast.LENGTH_LONG).show();
+                                mAuth.signOut();
+                                recreate();
+                            });
+                        return;
+                    }
+                    
+                    Toast.makeText(this, "User document not found!", Toast.LENGTH_LONG).show();
                 }
                 
                 sessionManager.saveUserData(username != null ? username : "User", isAdmin);
-                Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                navigateToMain();
+                
+                if (isAdmin) {
+                    Log.d("LoginActivity", "Navigating to Admin Dashboard");
+                    Toast.makeText(LoginActivity.this, "Welcome Admin!", Toast.LENGTH_SHORT).show();
+                    navigateToAdminDashboard();
+                } else {
+                    Log.d("LoginActivity", "Navigating to User Dashboard");
+                    Toast.makeText(LoginActivity.this, "Welcome User!", Toast.LENGTH_SHORT).show();
+                    navigateToMain();
+                }
             })
             .addOnFailureListener(e -> {
                 sessionManager.saveUserData("User", false);
                 Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                 navigateToMain();
             });
+    }
+
+    private void navigateToAdminDashboard() {
+        Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void navigateToMain() {
@@ -130,5 +207,40 @@ public class LoginActivity extends AppCompatActivity {
     private void navigateToRegister() {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    private void createDefaultAdminIfNeeded() {
+        db.collection("users")
+            .whereEqualTo("isAdmin", true)
+            .limit(1)
+            .get()
+            .addOnSuccessListener(queryDocumentSnapshots -> {
+                if (queryDocumentSnapshots.isEmpty()) {
+                    createDefaultAdmin();
+                }
+            });
+    }
+
+    private void createDefaultAdmin() {
+        String adminEmail = "admin@watchstore.com";
+        String adminPassword = "admin123";
+
+        mAuth.createUserWithEmailAndPassword(adminEmail, adminPassword)
+            .addOnSuccessListener(authResult -> {
+                if (authResult.getUser() != null) {
+                    Map<String, Object> adminData = new HashMap<>();
+                    adminData.put("username", "Admin");
+                    adminData.put("email", adminEmail);
+                    adminData.put("isAdmin", true);
+
+                    db.collection("users").document(authResult.getUser().getUid())
+                        .set(adminData)
+                        .addOnSuccessListener(aVoid -> {
+                            mAuth.signOut();
+                        });
+                }
+            })
+            .addOnFailureListener(e -> {
+            });
     }
 }
