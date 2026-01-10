@@ -45,7 +45,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         sessionManager = SessionManager.getInstance(this);
         
-        // Test Firestore connection
         Log.d("AdminDashboard", "Testing Firestore connection...");
         db.collection("test_connection")
             .document("test")
@@ -137,7 +136,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         tvNoWatches.setVisibility(View.GONE);
 
-        // Use realtime listener for automatic updates
         db.collection("watches")
             .orderBy("name")
             .addSnapshotListener((queryDocumentSnapshots, error) -> {
@@ -209,7 +207,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
             Log.d("AdminDashboard", "Form data - Name: " + name + ", Brand: " + brand + 
                   ", Price: " + priceStr + ", Stock: " + stockStr + ", Category: " + category);
 
-            // Detailed validation
             if (name.isEmpty()) {
                 Toast.makeText(this, "❌ Please enter watch name", Toast.LENGTH_LONG).show();
                 return;
@@ -263,7 +260,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         Log.d("AdminDashboard", "✅ SUCCESS! Watch added with ID: " + documentReference.getId());
                         Toast.makeText(this, "✅ Watch added successfully!\n" + name, Toast.LENGTH_LONG).show();
                         dialog.dismiss();
-                        // Realtime listener will automatically update the list
                     })
                     .addOnFailureListener(e -> {
                         Log.e("AdminDashboard", "❌ FAILED to add watch: " + e.getMessage(), e);
@@ -316,7 +312,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             String category = etCategory.getText().toString().trim();
             String imageUrl = etImageUrl.getText().toString().trim();
 
-            // Detailed validation
+            
             if (name.isEmpty()) {
                 Toast.makeText(this, "❌ Please enter watch name", Toast.LENGTH_LONG).show();
                 return;
@@ -359,7 +355,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                         Log.d("AdminDashboard", "✅ Watch updated successfully: " + watch.getId());
                         Toast.makeText(this, "✅ Watch updated successfully!\n" + name, Toast.LENGTH_LONG).show();
                         dialog.dismiss();
-                        // Realtime listener will automatically update the list
+
                     })
                     .addOnFailureListener(e -> {
                         Log.e("AdminDashboard", "❌ Failed to update watch: " + e.getMessage(), e);
@@ -390,7 +386,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
             .addOnSuccessListener(aVoid -> {
                 Log.d("AdminDashboard", "✅ Watch deleted successfully: " + watch.getId());
                 Toast.makeText(this, "✅ Watch deleted successfully!\n" + watch.getName(), Toast.LENGTH_LONG).show();
-                // Realtime listener will automatically update the list
             })
             .addOnFailureListener(e -> {
                 Log.e("AdminDashboard", "❌ Failed to delete watch: " + e.getMessage(), e);

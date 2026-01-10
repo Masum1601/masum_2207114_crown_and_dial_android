@@ -120,10 +120,8 @@ public class LoginActivity extends AppCompatActivity {
                     
                     Log.d("LoginActivity", "Username: " + username + ", isAdmin: " + isAdmin);
                     
-                    // Get the current user's email
                     String email = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "";
                     
-                    // If this is admin@watchstore.com but isAdmin is false, fix it
                     if ("admin@watchstore.com".equals(email) && !isAdmin) {
                         Log.d("LoginActivity", "Fixing admin account - setting isAdmin to true");
                         Toast.makeText(this, "Fixing admin account...", Toast.LENGTH_SHORT).show();
@@ -138,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(this, "Admin account fixed! Please login again.", Toast.LENGTH_LONG).show();
                                 mAuth.signOut();
-                                recreate(); // Restart the activity
+                                recreate();
                             });
                         return;
                     }
@@ -147,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Log.e("LoginActivity", "User document does not exist in Firestore!");
                     
-                    // Check if this is admin@watchstore.com - if so, create the document
                     String email = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "";
                     if ("admin@watchstore.com".equals(email)) {
                         Log.d("LoginActivity", "Creating admin user document");

@@ -55,7 +55,6 @@ public class UserDashboardActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         sessionManager = SessionManager.getInstance(this);
         
-        // Test Firestore connection
         Log.d("UserDashboard", "Testing Firestore connection...");
         Toast.makeText(this, "Testing database connection...", Toast.LENGTH_SHORT).show();
 
@@ -176,7 +175,8 @@ public class UserDashboardActivity extends AppCompatActivity {
 
     private void setupButtons() {
         btnCart.setOnClickListener(v -> {
-            Toast.makeText(this, "Cart feature coming soon!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
         });
 
         btnWishlist.setOnClickListener(v -> {
@@ -193,7 +193,6 @@ public class UserDashboardActivity extends AppCompatActivity {
         
         Log.d("UserDashboard", "Setting up realtime listener for watches");
 
-        // Use addSnapshotListener for realtime updates
         db.collection("watches")
             .addSnapshotListener((queryDocumentSnapshots, error) -> {
                 if (error != null) {
@@ -221,7 +220,6 @@ public class UserDashboardActivity extends AppCompatActivity {
                                   " | Category: " + watch.getCategory() + 
                                   " | Price: " + watch.getPrice());
                             
-                            // Add ALL watches for now (remove filters to test)
                             watchList.add(watch);
                             filteredWatchList.add(watch);
                             
@@ -232,11 +230,9 @@ public class UserDashboardActivity extends AppCompatActivity {
                     
                     Log.d("UserDashboard", "✅ Total watches loaded: " + filteredWatchList.size());
                     
-                    // Update adapter
                     watchAdapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
                     
-                    // Show result
                     String message = filteredWatchList.size() + " watches loaded";
                     Toast.makeText(this, "✅ " + message, Toast.LENGTH_LONG).show();
                     
@@ -323,9 +319,11 @@ public class UserDashboardActivity extends AppCompatActivity {
         cartItem.put("userId", userId);
         cartItem.put("watchId", watch.getId());
         cartItem.put("watchName", watch.getName());
+        cartItem.put("watchBrand", watch.getBrand());
         cartItem.put("watchPrice", watch.getPrice());
         cartItem.put("quantity", 1);
-        cartItem.put("addedAt", com.google.firebase.firestore.FieldValue.serverTimestamp());
+        cartItem.put("availableStock", watch.getStock());
+        cartItem.put("addedAt", System.currentTimeMillis());
 
         db.collection("cart")
             .add(cartItem)
@@ -414,7 +412,6 @@ public class UserDashboardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Removed loadWatches() - realtime listener handles updates automatically
         updateCartCount();
     }
 }

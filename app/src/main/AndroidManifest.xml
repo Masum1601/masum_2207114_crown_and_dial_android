@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Watchstore_android_114">
         
-        <!-- Login Activity - Entry Point -->
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -23,26 +22,34 @@
             </intent-filter>
         </activity>
         
-        <!-- Register Activity -->
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
             android:parentActivityName=".LoginActivity"
             android:windowSoftInputMode="adjustResize" />
         
-        <!-- User Dashboard Activity -->
         <activity
             android:name=".UserDashboardActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         
-        <!-- Admin Dashboard Activity -->
         <activity
             android:name=".AdminDashboardActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         
-        <!-- Main Activity (placeholder) -->
+        <activity
+            android:name=".CartActivity"
+            android:exported="false"
+            android:parentActivityName=".UserDashboardActivity"
+            android:windowSoftInputMode="adjustPan" />
+        
+        <activity
+            android:name=".CheckoutActivity"
+            android:exported="false"
+            android:parentActivityName=".CartActivity"
+            android:windowSoftInputMode="adjustResize" />
+        
         <activity
             android:name=".MainActivity"
             android:exported="false" />
