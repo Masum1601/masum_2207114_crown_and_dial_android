@@ -57,6 +57,12 @@
             android:windowSoftInputMode="adjustPan" />
         
         <activity
+            android:name=".WishlistActivity"
+            android:exported="false"
+            android:parentActivityName=".UserDashboardActivity"
+            android:windowSoftInputMode="adjustPan" />
+        
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
             

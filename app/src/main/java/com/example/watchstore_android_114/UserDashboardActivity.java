@@ -206,7 +206,8 @@ public class UserDashboardActivity extends AppCompatActivity {
         });
 
         btnWishlist.setOnClickListener(v -> {
-            Toast.makeText(this, "Wishlist feature coming soon!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, WishlistActivity.class);
+            startActivity(intent);
         });
 
         btnLogout.setOnClickListener(v -> logout());
