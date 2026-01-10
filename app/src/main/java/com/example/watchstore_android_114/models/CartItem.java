@@ -2,8 +2,8 @@ package com.example.watchstore_android_114.models;
 
 public class CartItem {
     private int id;
-    private int userId;
-    private int watchId;
+    private String userId;
+    private String watchId;
     private String watchName;
     private String watchBrand;
     private double watchPrice;
@@ -15,7 +15,7 @@ public class CartItem {
         this.addedAt = System.currentTimeMillis();
     }
 
-    public CartItem(int id, int userId, int watchId, String watchName, String watchBrand,
+    public CartItem(int id, String userId, String watchId, String watchName, String watchBrand,
                     double watchPrice, int quantity, int availableStock) {
         this.id = id;
         this.userId = userId;
@@ -40,19 +40,19 @@ public class CartItem {
         this.id = id;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public int getWatchId() {
+    public String getWatchId() {
         return watchId;
     }
 
-    public void setWatchId(int watchId) {
+    public void setWatchId(String watchId) {
         this.watchId = watchId;
     }
 

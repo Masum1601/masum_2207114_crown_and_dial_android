@@ -120,11 +120,37 @@ public class UserDashboardActivity extends AppCompatActivity {
     }
 
     private void setupCategoryFilters() {
-        chipAll.setOnClickListener(v -> filterByCategory("ALL"));
-        chipLuxury.setOnClickListener(v -> filterByCategory("Luxury"));
-        chipSport.setOnClickListener(v -> filterByCategory("Sport"));
-        chipClassic.setOnClickListener(v -> filterByCategory("Classic"));
-        chipSmart.setOnClickListener(v -> filterByCategory("Smart"));
+        chipAll.setOnClickListener(v -> {
+            updateChipSelection(chipAll);
+            filterByCategory("ALL");
+        });
+        chipLuxury.setOnClickListener(v -> {
+            updateChipSelection(chipLuxury);
+            filterByCategory("Luxury");
+        });
+        chipSport.setOnClickListener(v -> {
+            updateChipSelection(chipSport);
+            filterByCategory("Sport");
+        });
+        chipClassic.setOnClickListener(v -> {
+            updateChipSelection(chipClassic);
+            filterByCategory("Classic");
+        });
+        chipSmart.setOnClickListener(v -> {
+            updateChipSelection(chipSmart);
+            filterByCategory("Smart");
+        });
+        
+        chipAll.setChecked(true);
+    }
+    
+    private void updateChipSelection(Chip selectedChip) {
+        chipAll.setChecked(false);
+        chipLuxury.setChecked(false);
+        chipSport.setChecked(false);
+        chipClassic.setChecked(false);
+        chipSmart.setChecked(false);
+        selectedChip.setChecked(true);
     }
 
     private void setupSortSpinner() {
@@ -249,17 +275,50 @@ public class UserDashboardActivity extends AppCompatActivity {
 
     private void filterByCategory(String category) {
         currentCategory = category;
-        loadWatches();
+        
+        filteredWatchList.clear();
+        
+        if (category.equals("ALL")) {
+            filteredWatchList.addAll(watchList);
+        } else {
+            for (Watch watch : watchList) {
+                if (watch.getCategory() != null && 
+                    watch.getCategory().equalsIgnoreCase(category)) {
+                    filteredWatchList.add(watch);
+                }
+            }
+        }
+        
+        String searchText = etSearch.getText() != null ? etSearch.getText().toString() : "";
+        if (!searchText.isEmpty()) {
+            filterWatches(searchText);
+        } else {
+            watchAdapter.notifyDataSetChanged();
+            tvNoWatches.setVisibility(filteredWatchList.isEmpty() ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void filterWatches(String searchText) {
+        List<Watch> sourceList = new ArrayList<>();
+        
+        if (currentCategory.equals("ALL")) {
+            sourceList.addAll(watchList);
+        } else {
+            for (Watch watch : watchList) {
+                if (watch.getCategory() != null && 
+                    watch.getCategory().equalsIgnoreCase(currentCategory)) {
+                    sourceList.add(watch);
+                }
+            }
+        }
+        
         filteredWatchList.clear();
         
         if (searchText.isEmpty()) {
-            filteredWatchList.addAll(watchList);
+            filteredWatchList.addAll(sourceList);
         } else {
             String lowerCaseSearch = searchText.toLowerCase();
-            for (Watch watch : watchList) {
+            for (Watch watch : sourceList) {
                 if (watch.getName().toLowerCase().contains(lowerCaseSearch) ||
                     watch.getBrand().toLowerCase().contains(lowerCaseSearch) ||
                     (watch.getDescription() != null && 
@@ -381,7 +440,9 @@ public class UserDashboardActivity extends AppCompatActivity {
     }
 
     private void viewWatchDetails(Watch watch) {
-        Toast.makeText(this, "Watch details: " + watch.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(UserDashboardActivity.this, WatchDetailsActivity.class);
+        intent.putExtra("WATCH_ID", watch.getId());
+        startActivity(intent);
     }
 
     private void updateCartCount() {

@@ -85,25 +85,25 @@ public class Order {
     }
 
     public static class OrderItem {
-        private int watchId;
+        private String watchId;
         private String watchName;
         private int quantity;
         private double price;
 
         public OrderItem() {}
 
-        public OrderItem(int watchId, String watchName, int quantity, double price) {
+        public OrderItem(String watchId, String watchName, int quantity, double price) {
             this.watchId = watchId;
             this.watchName = watchName;
             this.quantity = quantity;
             this.price = price;
         }
 
-        public int getWatchId() {
+        public String getWatchId() {
             return watchId;
         }
 
-        public void setWatchId(int watchId) {
+        public void setWatchId(String watchId) {
             this.watchId = watchId;
         }
 

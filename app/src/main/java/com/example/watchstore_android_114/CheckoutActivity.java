@@ -226,7 +226,7 @@ public class CheckoutActivity extends AppCompatActivity {
         String username = sessionManager.getUsername();
 
         Order order = new Order();
-        order.setUserId(Integer.parseInt(userId));
+        order.setUserId(0);
         order.setUsername(username);
         order.setTotalAmount(total);
         order.setStatus("Pending");

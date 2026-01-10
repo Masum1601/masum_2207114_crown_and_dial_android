@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -178,8 +180,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
         TextInputEditText etPrice = dialogView.findViewById(R.id.et_watch_price);
         TextInputEditText etDescription = dialogView.findViewById(R.id.et_watch_description);
         TextInputEditText etStock = dialogView.findViewById(R.id.et_watch_stock);
-        TextInputEditText etCategory = dialogView.findViewById(R.id.et_watch_category);
+        android.widget.AutoCompleteTextView spinnerCategory = dialogView.findViewById(R.id.spinner_watch_category);
         TextInputEditText etImageUrl = dialogView.findViewById(R.id.et_watch_image_url);
+        
+        String[] categories = {"Luxury", "Sport", "Classic", "Smart"};
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
+            android.R.layout.simple_dropdown_item_1line, categories);
+        spinnerCategory.setAdapter(categoryAdapter);
+        spinnerCategory.setOnClickListener(v -> spinnerCategory.showDropDown());
 
         builder.setView(dialogView)
             .setTitle("Add New Watch")
@@ -201,7 +209,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             String priceStr = etPrice.getText() != null ? etPrice.getText().toString().trim() : "";
             String description = etDescription.getText() != null ? etDescription.getText().toString().trim() : "";
             String stockStr = etStock.getText() != null ? etStock.getText().toString().trim() : "";
-            String category = etCategory.getText() != null ? etCategory.getText().toString().trim() : "";
+            String category = spinnerCategory.getText().toString().trim();
             String imageUrl = etImageUrl.getText() != null ? etImageUrl.getText().toString().trim() : "";
 
             Log.d("AdminDashboard", "Form data - Name: " + name + ", Brand: " + brand + 
@@ -224,7 +232,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 return;
             }
             if (category.isEmpty()) {
-                Toast.makeText(this, "❌ Please enter category (Luxury/Sport/Classic/Smart)", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "❌ Please select a category", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -282,16 +290,25 @@ public class AdminDashboardActivity extends AppCompatActivity {
         TextInputEditText etPrice = dialogView.findViewById(R.id.et_watch_price);
         TextInputEditText etDescription = dialogView.findViewById(R.id.et_watch_description);
         TextInputEditText etStock = dialogView.findViewById(R.id.et_watch_stock);
-        TextInputEditText etCategory = dialogView.findViewById(R.id.et_watch_category);
+        android.widget.AutoCompleteTextView spinnerCategory = dialogView.findViewById(R.id.spinner_watch_category);
         TextInputEditText etImageUrl = dialogView.findViewById(R.id.et_watch_image_url);
+        
+        String[] categories = {"Luxury", "Sport", "Classic", "Smart"};
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
+            android.R.layout.simple_dropdown_item_1line, categories);
+        spinnerCategory.setAdapter(categoryAdapter);
+        spinnerCategory.setOnClickListener(v -> spinnerCategory.showDropDown());
 
         etName.setText(watch.getName());
         etBrand.setText(watch.getBrand());
         etPrice.setText(String.valueOf(watch.getPrice()));
         etDescription.setText(watch.getDescription());
         etStock.setText(String.valueOf(watch.getStock()));
-        etCategory.setText(watch.getCategory());
         etImageUrl.setText(watch.getImageUrl());
+        
+        if (watch.getCategory() != null) {
+            spinnerCategory.setText(watch.getCategory(), false);
+        }
 
         builder.setView(dialogView)
             .setTitle("Edit Watch")
@@ -309,7 +326,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             String priceStr = etPrice.getText().toString().trim();
             String description = etDescription.getText().toString().trim();
             String stockStr = etStock.getText().toString().trim();
-            String category = etCategory.getText().toString().trim();
+            String category = spinnerCategory.getText().toString().trim();
             String imageUrl = etImageUrl.getText().toString().trim();
 
             
@@ -330,7 +347,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 return;
             }
             if (category.isEmpty()) {
-                Toast.makeText(this, "❌ Please enter category (Luxury/Sport/Classic/Smart)", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "❌ Please select a category", Toast.LENGTH_LONG).show();
                 return;
             }
 
