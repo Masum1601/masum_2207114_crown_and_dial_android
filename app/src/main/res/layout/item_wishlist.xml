@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="16dp"
+        android:background="#FFFFFF">
 
         <androidx.cardview.widget.CardView
             android:layout_width="100dp"
@@ -22,7 +24,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F0F0F0">
+                android:background="#F5F7FA">
 
                 <ImageView
                     android:id="@+id/iv_wishlist_watch_image"
@@ -55,9 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Watch Name"
-                android:textColor="#1A237E"
-                android:textSize="18sp"
+                android:textColor="#1565C0"
+                android:textSize="19sp"
                 android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
@@ -67,9 +70,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Brand"
-                android:textColor="#5C6BC0"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="#212121"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,24 +85,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$0.00"
-                    android:textColor="#2E7D32"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="#000000"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:id="@+id/tv_wishlist_watch_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:background="#E8EAF6"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
+                    android:background="#E3F2FD"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     android:text="Luxury"
-                    android:textColor="#1A237E"
+                    android:textColor="#1565C0"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
             </LinearLayout>
 
             <TextView
@@ -120,25 +125,29 @@
                 <Button
                     android:id="@+id/btn_wishlist_view_details"
                     android:layout_width="0dp"
-                    android:layout_height="36dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:background="#5C6BC0"
+                    android:background="#1976D2"
                     android:text="View"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:elevation="2dp" />
 
                 <Button
                     android:id="@+id/btn_wishlist_remove"
                     android:layout_width="0dp"
-                    android:layout_height="36dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:background="#E53935"
+                    android:background="#000000"
                     android:text="Remove"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:elevation="2dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

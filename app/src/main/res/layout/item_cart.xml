@@ -3,145 +3,181 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp">
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp">
-
-            <ImageView
-                android:id="@+id/iv_cart_watch_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#F5F7FA"
-                android:contentDescription="Watch image"
-                android:scaleType="centerInside"
-                android:text="⌚"
-                android:textSize="32sp" />
-        </androidx.cardview.widget.CardView>
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#FFFFFF">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="12dp"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_cart_watch_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Watch Name"
-                android:textColor="#2C3E50"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
 
-            <TextView
-                android:id="@+id/tv_cart_watch_brand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Brand"
-                android:textColor="#7F8C8D"
-                android:textSize="14sp" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F5F7FA">
 
-            <TextView
-                android:id="@+id/tv_cart_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="$0.00"
-                android:textColor="#27AE60"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/iv_cart_watch_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Watch image"
+                        android:scaleType="centerInside"
+                        android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_cart_stock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Available: 0"
-                android:textColor="#95A5A6"
-                android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/tv_cart_watch_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="⌚"
+                        android:textSize="50sp"
+                        android:visibility="visible" />
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_decrease"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:color/holo_orange_light"
-                    android:text="-"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:padding="0dp" />
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_quantity"
-                    android:layout_width="48dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#2C3E50"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_increase"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@android:color/holo_green_light"
-                    android:text="+"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:padding="0dp" />
-
-                <TextView
-                    android:id="@+id/tv_cart_total_price"
+                    android:id="@+id/tv_cart_watch_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:text="Watch Name"
+                    android:textColor="#001F3F"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
+
+                <TextView
+                    android:id="@+id/tv_cart_watch_brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Brand"
+                    android:textColor="#424242"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:id="@+id/tv_cart_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="$0.00"
-                    android:textColor="#27AE60"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:id="@+id/tv_cart_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Available: 0"
+                    android:textColor="#757575"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif" />
             </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:background="#E0E0E0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity: "
+                android:textColor="#424242"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <Button
+                android:id="@+id/btn_decrease"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="#001F3F"
+                android:text="-"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                android:elevation="3dp" />
+
+            <TextView
+                android:id="@+id/tv_quantity"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
+
+            <Button
+                android:id="@+id/btn_increase"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="#001F3F"
+                android:text="+"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:padding="0dp"
+                android:elevation="3dp" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_remove"
-            android:layout_width="48dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@android:color/holo_red_light"
-            android:text="🗑️"
-            android:textSize="20sp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:padding="0dp"
-            android:layout_gravity="center_vertical" />
+            android:layout_marginTop="14dp"
+            android:background="#000000"
+            android:text="REMOVE FROM CART"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:elevation="2dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

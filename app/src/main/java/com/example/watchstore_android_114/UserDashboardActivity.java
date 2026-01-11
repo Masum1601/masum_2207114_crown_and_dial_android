@@ -56,7 +56,6 @@ public class UserDashboardActivity extends AppCompatActivity {
         sessionManager = SessionManager.getInstance(this);
         
         Log.d("UserDashboard", "Testing Firestore connection...");
-        Toast.makeText(this, "Testing database connection...", Toast.LENGTH_SHORT).show();
 
         if (!sessionManager.isLoggedIn()) {
             navigateToLogin();
@@ -265,9 +264,6 @@ public class UserDashboardActivity extends AppCompatActivity {
                     
                     watchAdapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
-                    
-                    String message = filteredWatchList.size() + " watches loaded";
-                    Toast.makeText(this, "✅ " + message, Toast.LENGTH_LONG).show();
                     
                     if (filteredWatchList.isEmpty()) {
                         tvNoWatches.setVisibility(View.VISIBLE);

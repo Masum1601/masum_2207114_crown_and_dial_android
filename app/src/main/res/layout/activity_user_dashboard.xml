@@ -47,49 +47,61 @@
                     <Button
                         android:id="@+id/btn_wishlist"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
-                        android:layout_marginEnd="6dp"
-                        android:text="❤ WISHLIST"
-                        android:textSize="11sp"
+                        android:layout_marginEnd="8dp"
+                        android:text="❤\nWISHLIST"
+                        android:textSize="10sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:backgroundTint="#DC2626" />
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.05"
+                        android:backgroundTint="#DC2626"
+                        android:elevation="4dp" />
 
                     <Button
                         android:id="@+id/btn_cart"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
-                        android:layout_marginEnd="6dp"
-                        android:text="🛒 CART (0)"
-                        android:textSize="11sp"
+                        android:layout_marginEnd="8dp"
+                        android:text="🛒\nCART (0)"
+                        android:textSize="10sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:backgroundTint="#059669" />
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.05"
+                        android:backgroundTint="#059669"
+                        android:elevation="4dp" />
 
                     <Button
                         android:id="@+id/btn_orders"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
-                        android:layout_marginEnd="6dp"
-                        android:text="📦 ORDERS"
-                        android:textSize="11sp"
+                        android:layout_marginEnd="8dp"
+                        android:text="📦\nORDERS"
+                        android:textSize="10sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:backgroundTint="#3B82F6" />
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.05"
+                        android:backgroundTint="#3B82F6"
+                        android:elevation="4dp" />
 
                     <Button
                         android:id="@+id/btn_logout"
                         android:layout_width="0dp"
-                        android:layout_height="48dp"
+                        android:layout_height="56dp"
                         android:layout_weight="1"
-                        android:text="LOGOUT"
-                        android:textSize="11sp"
+                        android:text="🚪\nLOGOUT"
+                        android:textSize="10sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
-                        android:backgroundTint="#DC2626" />
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.05"
+                        android:backgroundTint="#DC2626"
+                        android:elevation="4dp" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>

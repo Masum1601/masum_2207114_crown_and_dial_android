@@ -110,7 +110,6 @@ public class AdminOrdersActivity extends AppCompatActivity {
         tvNoOrders.setVisibility(View.GONE);
 
         db.collection("orders")
-            .orderBy("orderDate", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener((queryDocumentSnapshots, error) -> {
                 if (error != null) {
                     progressBar.setVisibility(View.GONE);
@@ -182,6 +181,9 @@ public class AdminOrdersActivity extends AppCompatActivity {
                             Log.e("AdminOrders", "Error parsing order: " + e.getMessage(), e);
                         }
                     }
+
+                    // Sort by date descending
+                    orderList.sort((o1, o2) -> Long.compare(o2.getOrderDate(), o1.getOrderDate()));
 
                     progressBar.setVisibility(View.GONE);
                     filterOrders();

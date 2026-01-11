@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="18dp"
+        android:background="#FFFFFF">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,49 +31,54 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Order #1234"
-                    android:textColor="#1A237E"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="#0D47A1"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.01" />
 
                 <TextView
                     android:id="@+id/tv_admin_customer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Customer: John Doe"
-                    android:textColor="#5C6BC0"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="8dp"
+                    android:text="John Doe"
+                    android:textColor="#263238"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium" />
 
                 <TextView
                     android:id="@+id/tv_admin_order_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:text="Jan 11, 2026 at 10:30 AM"
                     android:textColor="#757575"
-                    android:textSize="13sp" />
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_admin_order_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#E8EAF6"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
+                android:background="@drawable/status_badge_background"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="Pending"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.03" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:background="#E0E0E0" />
 
         <LinearLayout
@@ -94,47 +100,54 @@
                 android:layout_weight="1"
                 android:text="3 items"
                 android:textColor="#424242"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total: "
-                android:textColor="#616161"
-                android:textSize="14sp" />
+                android:textColor="#757575"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif" />
 
             <TextView
                 android:id="@+id/tv_admin_order_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$2,499.00"
-                android:textColor="#2E7D32"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="#1B5E20"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_admin_order_items_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:background="#F5F5F5"
-            android:padding="10dp"
+            android:padding="16dp"
             android:text="• Watch 1 (x1) - $999.00\n• Watch 2 (x2) - $750.00"
-            android:textColor="#616161"
-            android:textSize="13sp"
-            android:lineSpacingExtra="2dp" />
+            android:textColor="#263238"
+            android:textSize="15sp"
+            android:lineSpacingExtra="6dp"
+            android:fontFamily="sans-serif" />
 
         <Button
             android:id="@+id/btn_admin_update_status"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
             android:background="@android:color/holo_orange_dark"
             android:text="UPDATE STATUS"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:elevation="4dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

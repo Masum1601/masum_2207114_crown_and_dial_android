@@ -14,27 +14,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3498DB"
+            android:background="#001F3F"
             android:elevation="4dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Checkout"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColor="#FFFFFF"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:id="@+id/tv_checkout_item_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 android:text="0 item(s)"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif" />
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -54,9 +56,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="📦 Shipping Information"
-                    android:textColor="#2C3E50"
-                    android:textSize="18sp"
+                    android:textColor="#001F3F"
+                    android:textSize="20sp"
                     android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -167,9 +170,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="💳 Payment Method"
-                    android:textColor="#2C3E50"
-                    android:textSize="18sp"
+                    android:textColor="#001F3F"
+                    android:textSize="20sp"
                     android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="16dp" />
 
                 <RadioGroup
@@ -181,34 +185,42 @@
                         android:id="@+id/rb_credit_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+                        android:padding="12dp"
                         android:text="Credit Card"
-                        android:textSize="16sp" />
+                        android:textSize="17sp"
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif" />
 
                     <RadioButton
                         android:id="@+id/rb_debit_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+                        android:padding="12dp"
                         android:text="Debit Card"
-                        android:textSize="16sp" />
+                        android:textSize="17sp"
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif" />
 
                     <RadioButton
                         android:id="@+id/rb_upi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+                        android:padding="12dp"
                         android:text="UPI"
-                        android:textSize="16sp" />
+                        android:textSize="17sp"
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif" />
 
                     <RadioButton
                         android:id="@+id/rb_cod"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:padding="8dp"
+                        android:padding="12dp"
                         android:text="Cash on Delivery"
-                        android:textSize="16sp" />
+                        android:textSize="17sp"
+                        android:textColor="#212121"
+                        android:fontFamily="sans-serif" />
                 </RadioGroup>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -232,64 +244,69 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="📊 Order Summary"
-                    android:textColor="#2C3E50"
-                    android:textSize="18sp"
+                    android:textColor="#001F3F"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="14dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Subtotal:"
-                        android:textColor="#7F8C8D"
-                        android:textSize="16sp" />
+                        android:textColor="#424242"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif" />
 
                     <TextView
                         android:id="@+id/tv_order_subtotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$0.00"
-                        android:textColor="#2C3E50"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Tax (8%):"
-                        android:textColor="#7F8C8D"
-                        android:textSize="16sp" />
+                        android:textColor="#424242"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif" />
 
                     <TextView
                         android:id="@+id/tv_order_tax"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$0.00"
-                        android:textColor="#2C3E50"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="#E0E0E0" />
 
                 <LinearLayout
@@ -302,18 +319,20 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Total:"
-                        android:textColor="#2C3E50"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textColor="#000000"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
 
                     <TextView
                         android:id="@+id/tv_order_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$0.00"
-                        android:textColor="#27AE60"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textColor="#000000"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -327,22 +346,29 @@
             <Button
                 android:id="@+id/btn_place_order"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="#27AE60"
-                android:text="Place Order"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:layout_height="58dp"
+                android:background="#001F3F"
+                android:text="PLACE ORDER"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05"
+                android:elevation="4dp"
+                android:layout_marginBottom="12dp" />
 
             <Button
                 android:id="@+id/btn_cancel_checkout"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="#E74C3C"
-                android:text="Cancel"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
+                android:layout_height="50dp"
+                android:background="#000000"
+                android:text="CANCEL"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.05"
+                android:elevation="2dp" />
         </LinearLayout>
 
         <ProgressBar

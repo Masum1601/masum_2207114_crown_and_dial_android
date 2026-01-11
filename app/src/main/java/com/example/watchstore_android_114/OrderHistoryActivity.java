@@ -87,7 +87,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
         db.collection("orders")
             .whereEqualTo("userId", userId)
-            .orderBy("orderDate", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .addSnapshotListener((queryDocumentSnapshots, error) -> {
                 if (error != null) {
                     progressBar.setVisibility(View.GONE);
@@ -159,6 +158,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
                             Log.e("OrderHistory", "Error parsing order: " + e.getMessage(), e);
                         }
                     }
+
+                    // Sort by date descending
+                    orderList.sort((o1, o2) -> Long.compare(o2.getOrderDate(), o1.getOrderDate()));
 
                     progressBar.setVisibility(View.GONE);
                     

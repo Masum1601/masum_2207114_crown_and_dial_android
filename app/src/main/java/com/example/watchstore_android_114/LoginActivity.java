@@ -140,8 +140,6 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         return;
                     }
-                    
-                    Toast.makeText(this, "User: " + username + ", Admin: " + isAdmin, Toast.LENGTH_LONG).show();
                 } else {
                     Log.e("LoginActivity", "User document does not exist in Firestore!");
                     

@@ -48,7 +48,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvWatchBrand.setText(item.getWatchBrand());
         holder.tvPrice.setText(String.format("$%.2f", item.getWatchPrice()));
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
-        holder.tvTotalPrice.setText(String.format("$%.2f", item.getTotalPrice()));
         holder.tvStock.setText("Available: " + item.getAvailableStock());
 
         holder.btnIncrease.setOnClickListener(v -> {
@@ -80,7 +79,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView tvWatchName, tvWatchBrand, tvPrice, tvQuantity, tvTotalPrice, tvStock;
+        TextView tvWatchName, tvWatchBrand, tvPrice, tvQuantity, tvStock, tvWatchIcon;
         Button btnIncrease, btnDecrease, btnRemove;
         ImageView ivWatchImage;
 
@@ -90,12 +89,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvWatchBrand = itemView.findViewById(R.id.tv_cart_watch_brand);
             tvPrice = itemView.findViewById(R.id.tv_cart_price);
             tvQuantity = itemView.findViewById(R.id.tv_quantity);
-            tvTotalPrice = itemView.findViewById(R.id.tv_cart_total_price);
             tvStock = itemView.findViewById(R.id.tv_cart_stock);
             btnIncrease = itemView.findViewById(R.id.btn_increase);
             btnDecrease = itemView.findViewById(R.id.btn_decrease);
             btnRemove = itemView.findViewById(R.id.btn_remove);
             ivWatchImage = itemView.findViewById(R.id.iv_cart_watch_image);
+            tvWatchIcon = itemView.findViewById(R.id.tv_cart_watch_icon);
         }
     }
 }

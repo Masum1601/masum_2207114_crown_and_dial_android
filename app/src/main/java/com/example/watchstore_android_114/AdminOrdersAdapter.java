@@ -45,7 +45,7 @@ public class AdminOrdersAdapter extends RecyclerView.Adapter<AdminOrdersAdapter.
         Order order = orderList.get(position);
 
         holder.tvOrderId.setText("Order #" + Math.abs(order.getId() % 10000));
-        holder.tvCustomerName.setText("Customer: " + (order.getUsername() != null ? order.getUsername() : "Unknown"));
+        holder.tvCustomerName.setText(order.getUsername() != null ? order.getUsername() : "Unknown");
         holder.tvOrderDate.setText(formatDate(order.getOrderDate()));
         holder.tvOrderTotal.setText(String.format("$%.2f", order.getTotalAmount()));
         holder.tvOrderStatus.setText(order.getStatus() != null ? order.getStatus() : "Pending");
