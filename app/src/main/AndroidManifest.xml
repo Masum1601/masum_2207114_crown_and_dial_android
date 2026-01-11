@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -60,6 +63,18 @@
             android:name=".WishlistActivity"
             android:exported="false"
             android:parentActivityName=".UserDashboardActivity"
+            android:windowSoftInputMode="adjustPan" />
+        
+        <activity
+            android:name=".OrderHistoryActivity"
+            android:exported="false"
+            android:parentActivityName=".UserDashboardActivity"
+            android:windowSoftInputMode="adjustPan" />
+        
+        <activity
+            android:name=".AdminOrdersActivity"
+            android:exported="false"
+            android:parentActivityName=".AdminDashboardActivity"
             android:windowSoftInputMode="adjustPan" />
         
         <activity

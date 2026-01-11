@@ -39,7 +39,7 @@ public class UserDashboardActivity extends AppCompatActivity {
     private TextView tvNoWatches, tvUserName;
     private TextInputEditText etSearch;
     private Spinner spinnerSort;
-    private Button btnCart, btnWishlist, btnLogout;
+    private Button btnCart, btnWishlist, btnOrders, btnLogout;
     private Chip chipAll, chipLuxury, chipSport, chipClassic, chipSmart;
 
     private FirebaseFirestore db;
@@ -83,6 +83,7 @@ public class UserDashboardActivity extends AppCompatActivity {
         spinnerSort = findViewById(R.id.spinner_sort);
         btnCart = findViewById(R.id.btn_cart);
         btnWishlist = findViewById(R.id.btn_wishlist);
+        btnOrders = findViewById(R.id.btn_orders);
         btnLogout = findViewById(R.id.btn_logout);
         
         chipAll = findViewById(R.id.chip_all);
@@ -207,6 +208,11 @@ public class UserDashboardActivity extends AppCompatActivity {
 
         btnWishlist.setOnClickListener(v -> {
             Intent intent = new Intent(this, WishlistActivity.class);
+            startActivity(intent);
+        });
+
+        btnOrders.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrderHistoryActivity.class);
             startActivity(intent);
         });
 

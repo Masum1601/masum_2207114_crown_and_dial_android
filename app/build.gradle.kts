@@ -48,6 +48,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.cardview:cardview:1.0.0")
+    
+    // Glide for image loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

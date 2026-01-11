@@ -34,7 +34,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private List<Watch> watchList = new ArrayList<>();
     private ProgressBar progressBar;
     private TextView tvNoWatches, tvAdminName, tvTotalWatches, tvTotalUsers, tvTotalOrders, tvTotalRevenue;
-    private Button btnAddWatch, btnLogout;
+    private Button btnAddWatch, btnLogout, btnOrders;
 
     private FirebaseFirestore db;
     private SessionManager sessionManager;
@@ -82,6 +82,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         tvTotalRevenue = findViewById(R.id.tv_total_revenue);
         btnAddWatch = findViewById(R.id.btn_add_watch);
         btnLogout = findViewById(R.id.btn_logout);
+        btnOrders = findViewById(R.id.btn_admin_orders);
 
         String username = sessionManager.getUsername();
         if (username != null) {
@@ -90,6 +91,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         btnAddWatch.setOnClickListener(v -> showAddWatchDialog());
         btnLogout.setOnClickListener(v -> logout());
+        btnOrders.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, AdminOrdersActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupRecyclerView() {

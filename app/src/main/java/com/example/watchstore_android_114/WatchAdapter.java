@@ -59,6 +59,13 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
         if (watch.getImageUrl() != null && !watch.getImageUrl().isEmpty()) {
             holder.ivWatchImage.setVisibility(View.VISIBLE);
             holder.tvWatchIcon.setVisibility(View.GONE);
+            
+            // Load image with Glide
+            com.bumptech.glide.Glide.with(context)
+                .load(watch.getImageUrl())
+                .placeholder(android.R.drawable.ic_menu_gallery)
+                .error(android.R.drawable.ic_menu_report_image)
+                .into(holder.ivWatchImage);
         } else {
             holder.ivWatchImage.setVisibility(View.GONE);
             holder.tvWatchIcon.setVisibility(View.VISIBLE);

@@ -132,6 +132,13 @@ public class WatchDetailsActivity extends AppCompatActivity {
         if (watch.getImageUrl() != null && !watch.getImageUrl().isEmpty()) {
             ivWatchImage.setVisibility(View.VISIBLE);
             tvWatchIcon.setVisibility(View.GONE);
+            
+            // Load image with Glide
+            com.bumptech.glide.Glide.with(this)
+                .load(watch.getImageUrl())
+                .placeholder(android.R.drawable.ic_menu_gallery)
+                .error(android.R.drawable.ic_menu_report_image)
+                .into(ivWatchImage);
         } else {
             ivWatchImage.setVisibility(View.GONE);
             tvWatchIcon.setVisibility(View.VISIBLE);

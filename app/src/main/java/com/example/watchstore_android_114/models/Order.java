@@ -11,6 +11,7 @@ public class Order {
     private String status;
     private long orderDate;
     private List<OrderItem> items;
+    private String documentId;
 
     public Order() {
         this.orderDate = System.currentTimeMillis();
@@ -82,6 +83,14 @@ public class Order {
 
     public void setItems(List<OrderItem> items) {
         this.items = items;
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public static class OrderItem {
